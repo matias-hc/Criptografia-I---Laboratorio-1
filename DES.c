@@ -2,28 +2,35 @@
 #include <stdlib.h>
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
     unsigned char ***S, **E, **P, it1, it2, it3;
     S = (unsigned char ***)malloc(sizeof(unsigned char **)*8);
     for (it1 = 0; it1 < 8; it1 += 1){
     	S[it1] = (unsigned char **)malloc(sizeof(unsigned char *)*8);
     	for (it2 = 0; it2 < 8; it2 += 1)
-    	    S[it1][it2] = (unsigned char *)malloc(sizeof(unsigned char)) ;}
+    	    S[it1][it2] = (unsigned char *)malloc(sizeof(unsigned char));
+    }
     printf("%d\n", it3);
     FILE *f = fopen("tablas.dat", "r");
     for (it1 = 0; it1 < 8; it1 += 1)
         for (it2 = 0; it2 < 8; it2 += 1)
             for (it3 = 0; it3 < 8; it3 += 1)
                 fscanf(f, "%d", &S[it1][it2][it3]);
+    
 
     return 0;
 }
 
-char *Expansion(R)
-{
-   char *res;
-   /*expansion*/ 
+unsigned char *Expansion(unsigned char *R){
+   unsigned char *res;
+   int i;
+   res = (unsigned char *)malloc(sizeof(unsigned char)*6);
+   res[0] = (R[3]%2)*128 + (R[0]/32)*16 + ((R[0]%32)/8)*(4+1);
+   res[1] = ((R[0]%8/2)*64 + ((R[0]%2)*2+(R[1]/128))*(16+4) + ((R[1]%128)/32));
+   res[2] = ((R[1]%32)/8)*(64+16) + (R[1]/8)*2 + (R[2]/128);
+   res[3] = (R[1]%2)*128 + (R[2]/32)*16 + ((R[2]%32)/8)*(4+1);
+   res[4] = ((R[2]%8/2)*64 + ((R[2]%2)*2+(R[3]/128))*(16+4) + ((R[3]%128)/32));
+   res[5] = ((R[3]%32)/8)*(64+16) + (R[3]/8)*2 + (R[0]/128);
    return res;
 }
 
